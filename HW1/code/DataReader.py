@@ -72,8 +72,11 @@ def prepare_X(raw_X):
     # print("2", feature_2.shape)
     # print("3", feature_1.shape)
     X = np.vstack([feature_3, feature_2, feature_1]).transpose()
+    # print("shape of X:", X.shape)
+    # print("first row of X", X[0, :])
+    # print("1", np.mean(feature_1))
+    # print("2", np.mean(feature_2))
     # END YOUR CODE
-
     return X
 
 def prepare_y(raw_y):

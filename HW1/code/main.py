@@ -1,10 +1,11 @@
+from calendar import c
 import os
 import matplotlib.pyplot as plt
 from LogisticRegression import logistic_regression
 from LRM import logistic_regression_multiclass
 from DataReader import *
 
-data_dir = "../data/"
+data_dir = "data"
 train_filename = "training.npz"
 test_filename = "test.npz"
     
@@ -20,8 +21,13 @@ def visualize_features(X, y):
         in submission.
     '''
     ### YOUR CODE HERE
-
-
+    plt.figure(figsize=(8, 6))
+    plt.scatter(X[y==1 , 0], X[y== 1, 1], c='green', label='class  1')
+    plt.scatter(X[y==-1, 0], X[y==-1, 1], c='red', label='class -1')
+    plt.xlabel('Intensity')
+    plt.ylabel('Symmetry')
+    plt.legend()
+    plt.savefig("images/training_data.jpg")
     ### END YOUR CODE
 
 def visualize_result(X, y, W):

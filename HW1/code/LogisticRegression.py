@@ -23,6 +23,8 @@ class logistic_regression(object):
         n_samples, n_features = X.shape
 
 		### YOUR CODE HERE
+        # define W
+        self.W = np.zeros()
 
 		### END YOUR CODE
         return self
@@ -71,7 +73,12 @@ class logistic_regression(object):
                 cross-entropy with respect to self.W.
         """
 		### YOUR CODE HERE
-
+        # Equation from T04-LogReg.pdf p.28
+        # np.dot == element-wise multiplication and summation
+        _x = np.array(_x)
+        _y = np.array(_y)
+        _g = -np.divide((_y * _x), (1 + np.exp(_y * np.dot(self.W, _x))))
+        return _g
 		### END YOUR CODE
 
     def get_params(self):
