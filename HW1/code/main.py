@@ -5,7 +5,7 @@ from LogisticRegression import logistic_regression
 from LRM import logistic_regression_multiclass
 from DataReader import *
 
-data_dir = "data"
+data_dir = "../data"
 train_filename = "training.npz"
 test_filename = "test.npz"
     
@@ -22,49 +22,65 @@ def visualize_features(X, y):
     '''
     ### YOUR CODE HERE
     plt.figure(figsize=(8, 6))
-    plt.scatter(X[y==1 , 0], X[y== 1, 1], c='green', label='class  1')
-    plt.scatter(X[y==-1, 0], X[y==-1, 1], c='red', label='class -1')
-    plt.xlabel('Intensity')
-    plt.ylabel('Symmetry')
+    plt.scatter(X[y ==  1, 0], X[y ==  1, 1], c='green', label='class 1', alpha=0.5)
+    plt.scatter(X[y == -1, 0], X[y == -1, 1], c='red',   label='class 2 (or -1)', alpha=0.5)
+    plt.title('Data')
+    plt.xlim([-1, 0.2])
+    plt.ylim([-1, 0.2])
+    plt.xlabel('Symmetry')
+    plt.ylabel('Intensity')
     plt.legend()
-    plt.savefig("images/training_data.jpg")
+    plt.savefig("../images/train_features.jpg")
     ### END YOUR CODE
 
 def visualize_result(X, y, W):
-	'''This function is used to plot the sigmoid model after training. 
+    '''This function is used to plot the sigmoid model after training.
 
-	Args:
-		X: An array of shape [n_samples, 2].
-		y: An array of shape [n_samples,]. Only contains 1 or -1.
-		W: An array of shape [n_features,].
-	
-	Returns:
-		No return. Save the plot to 'train_result_sigmoid.*' and include it
-		in submission.
-	'''
-	### YOUR CODE HERE
+    Args:
+        X: An array of shape [n_samples, 2].
+        y: An array of shape [n_samples,]. Only contains 1 or -1.
+        W: An array of shape [n_features,].
 
-	### END YOUR CODE
+    Returns:
+        No return. Save the plot to 'train_result_sigmoid.*' and include it
+        in submission.
+    '''
+    ### YOUR CODE HERE
+    xs = np.linspace(np.min(X[:, 0]), np.max(X[:, 0]), 100)
+    ys = -W[0]/W[2] - W[1]/W[2]*xs
+
+    plt.figure(figsize=(8, 6))
+    plt.scatter(X[y ==  1, 0], X[y ==  1, 1], c='green', label='class 1', alpha=0.5)
+    plt.scatter(X[y == -1, 0], X[y == -1, 1], c='red',   label='class 2 (or -1)', alpha=0.5)
+    plt.plot(xs, ys, label='Decision Boundary')
+    plt.title('Binary Classification with Logistic Regression')
+    plt.xlim([-1, 0.2])
+    plt.ylim([-1, 0.2])
+    plt.xlabel('Symmetry')
+    plt.ylabel('Intensity')
+    plt.legend()
+    plt.savefig("../images/train_result_sigmoid.jpg")
+    ### END YOUR CODE
 
 def visualize_result_multi(X, y, W):
-	'''This function is used to plot the softmax model after training. 
+    '''This function is used to plot the softmax model after training.
 
-	Args:
-		X: An array of shape [n_samples, 2].
-		y: An array of shape [n_samples,]. Only contains 0,1,2.
-		W: An array of shape [n_features, 3].
-	
-	Returns:
-		No return. Save the plot to 'train_result_softmax.*' and include it
-		in submission.
-	'''
-	### YOUR CODE HERE
+    Args:
+        X: An array of shape [n_samples, 2].
+        y: An array of shape [n_samples,]. Only contains 0,1,2.
+        W: An array of shape [n_features, 3].
 
-	### END YOUR CODE
+    Returns:
+        No return. Save the plot to 'train_result_softmax.*' and include it
+        in submission.
+    '''
+    ### YOUR CODE HERE
+
+    ### END YOUR CODE
 
 def main():
-	# ------------Data Preprocessing------------
-	# Read data for training.
+    # ------------Data Preprocessing------------
+    # Read data for training.
     
     raw_data, labels = load_data(os.path.join(data_dir, train_filename))
     raw_train, raw_valid, label_train, label_valid = train_valid_split(raw_data, labels, 2300)
@@ -121,19 +137,44 @@ def main():
 
     # Explore different hyper-parameters.
     ### YOUR CODE HERE
+    # logisticR_classifier = logistic_regression(learning_rate=1e-2, max_iter=1000)
+    # logisticR_classifier.fit_miniBGD(train_X, train_y, 1)
+    # print(logisticR_classifier.get_params())
+    # print(logisticR_classifier.score(train_X, train_y))
 
+    # This one is the best one.
+    best_logisticR = logistic_regression(learning_rate=1e-2, max_iter=1000)
+    best_logisticR.fit_miniBGD(train_X, train_y, 5)
+    print(best_logisticR.get_params())
+    print(best_logisticR.score(train_X, train_y))
+
+    # logisticR_classifier = logistic_regression(learning_rate=1e-2, max_iter=1000)
+    # logisticR_classifier.fit_miniBGD(train_X, train_y, 10)
+    # print(logisticR_classifier.get_params())
+    # print(logisticR_classifier.score(train_X, train_y))
     ### END YOUR CODE
 
-	# Visualize the your 'best' model after training.
-	# visualize_result(train_X[:, 1:3], train_y, best_logisticR.get_params())
+    # Visualize the your 'best' model after training.
+    # visualize_result(train_X[:, 1:3], train_y, best_logisticR.get_params())
 
     ### YOUR CODE HERE
-
+    visualize_result(train_X[:, 1:3], train_y, best_logisticR.get_params())
     ### END YOUR CODE
 
     # Use the 'best' model above to do testing. Note that the test data should be loaded and processed in the same way as the training data.
     ### YOUR CODE HERE
+    test_data, test_labels = load_data(os.path.join(data_dir, test_filename))
 
+    test_X_all = prepare_X(test_data)
+    test_y_all, test_idx = prepare_y(test_labels)
+
+    test_X = test_X_all[test_idx]
+    test_y = test_y_all[test_idx]
+
+    test_y[np.where(test_y == 2)] = -1
+
+    print("Logistic Regression Sigmoid Case")
+    print("Accuracy on test data:", best_logisticR.score(test_X, test_y))
     ### END YOUR CODE
 
 
@@ -155,8 +196,8 @@ def main():
 
     ### END YOUR CODE
 
-	# Visualize the your 'best' model after training.
-	# visualize_result_multi(train_X[:, 1:3], train_y, best_logistic_multi_R.get_params())
+    # Visualize the your 'best' model after training.
+    # visualize_result_multi(train_X[:, 1:3], train_y, best_logistic_multi_R.get_params())
 
 
     # Use the 'best' model above to do testing.
@@ -222,6 +263,6 @@ Then, for what leaning rates, we can obtain w_1-w_2= w for all training steps so
     
 
 if __name__ == '__main__':
-	main()
+    main()
     
     

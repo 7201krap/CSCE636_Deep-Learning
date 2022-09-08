@@ -4,8 +4,9 @@ import sys
 """This script implements a two-class logistic regression model.
 """
 
+
 class logistic_regression(object):
-	
+
     def __init__(self, learning_rate, max_iter):
         self.learning_rate = learning_rate
         self.max_iter = max_iter
@@ -22,11 +23,16 @@ class logistic_regression(object):
         """
         n_samples, n_features = X.shape
 
-		### YOUR CODE HERE
+        ### YOUR CODE HERE
         # define W
-        self.W = np.zeros()
+        # shape of _x: [n_features,]
+        # shape of  W: [n_features,]
+        self.W = np.zeros((n_features,))
+        for _ in range(self.max_iter):
+            full_gradient = np.mean([self._gradient(x, y) for x, y in zip(X, y)], axis=0)
+            self.W = self.W + self.learning_rate * (-full_gradient)
 
-		### END YOUR CODE
+        ### END YOUR CODE
         return self
 
     def fit_miniBGD(self, X, y, batch_size):
@@ -40,9 +46,20 @@ class logistic_regression(object):
         Returns:
             self: Returns an instance of self.
         """
-		### YOUR CODE HERE
+        ### YOUR CODE HERE
+        n_samples, n_features = X.shape
 
-		### END YOUR CODE
+        self.W = np.zeros((n_features,))
+        for _ in range(self.max_iter):
+            for idx in range(0, n_samples, batch_size):
+                if idx + batch_size > n_samples:
+                    samples = n_samples - idx
+                else:
+                    samples = batch_size
+                batch_gradient = np.mean(
+                    [self._gradient(x, y) for x, y in zip(X[idx:idx + samples], y[idx:idx + samples])], axis=0)
+                self.W = self.W + self.learning_rate * (-batch_gradient)
+        ### END YOUR CODE
         return self
 
     def fit_SGD(self, X, y):
@@ -55,9 +72,15 @@ class logistic_regression(object):
         Returns:
             self: Returns an instance of self.
         """
-		### YOUR CODE HERE
+        ### YOUR CODE HERE
+        n_samples, n_features = X.shape
 
-		### END YOUR CODE
+        self.W = np.zeros((n_features,))
+        for _ in range(self.max_iter):
+            for j in range(n_samples):
+                one_sample_gradient = self._gradient(X[j], y[j])
+                self.W = self.W + self.learning_rate * (-one_sample_gradient)
+        ### END YOUR CODE
         return self
 
     def _gradient(self, _x, _y):
@@ -72,14 +95,14 @@ class logistic_regression(object):
             _g: An array of shape [n_features,]. The gradient of
                 cross-entropy with respect to self.W.
         """
-		### YOUR CODE HERE
+        ### YOUR CODE HERE
         # Equation from T04-LogReg.pdf p.28
         # np.dot == element-wise multiplication and summation
         _x = np.array(_x)
         _y = np.array(_y)
         _g = -np.divide((_y * _x), (1 + np.exp(_y * np.dot(self.W, _x))))
         return _g
-		### END YOUR CODE
+        ### END YOUR CODE
 
     def get_params(self):
         """Get parameters for this perceptron model.
@@ -102,10 +125,22 @@ class logistic_regression(object):
             preds_proba: An array of shape [n_samples, 2].
                 Only contains floats between [0,1].
         """
-		### YOUR CODE HERE
+        ### YOUR CODE HERE
+        prediction = list()
+        prediction_the_other = list()
 
-		### END YOUR CODE
+        for x_single_sample in X:
+            prob = 1 / (1 + np.exp(-np.dot(self.W, x_single_sample)))   # scalar value
+            prediction.append(prob)                 # row vector
+            prediction_the_other.append(1-prob)     # row vector
 
+        # Vertically stack two row vectors and transpose it.
+        # Then it becomes column vector with two columns.
+        # This satisfies the above condition. Shape of preds_proba == [n_samples, 2]
+        preds_proba = np.vstack([prediction, prediction_the_other]).transpose()
+
+        return preds_proba
+        ### END YOUR CODE
 
     def predict(self, X):
         """Predict class labels for samples in X.
@@ -116,9 +151,17 @@ class logistic_regression(object):
         Returns:
             preds: An array of shape [n_samples,]. Only contains 1 or -1.
         """
-		### YOUR CODE HERE
+        ### YOUR CODE HERE
+        prediction = list()
+        for x_single_sample in X:
+            if np.dot(self.W, x_single_sample) >= 0:
+                prediction.append(1)
+            else:
+                prediction.append(-1)
 
-		### END YOUR CODE
+        # print("shape of predictions", np.array(prediction).shape)
+        return prediction
+        ### END YOUR CODE
 
     def score(self, X, y):
         """Returns the mean accuracy on the given test data and labels.
@@ -130,11 +173,13 @@ class logistic_regression(object):
         Returns:
             score: An float. Mean accuracy of self.predict(X) wrt. y.
         """
-		### YOUR CODE HERE
+        ### YOUR CODE HERE
+        n_samples, n_features = X.shape
+        prediction = self.predict(X)
+        score = np.divide(np.sum(y == prediction), n_samples) * 100
+        return score
+        ### END YOUR CODE
 
-		### END YOUR CODE
-    
     def assign_weights(self, weights):
         self.W = weights
         return self
-

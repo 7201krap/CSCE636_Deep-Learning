@@ -15,9 +15,9 @@ def load_data(filename):
         labels : An array of shape [n_samples,].
 
     """
-    data= np.load(filename)
-    x= data['x']
-    y= data['y']
+    data = np.load(filename)
+    x = data['x']
+    y = data['y']
     return x, y
 
 def train_valid_split(raw_data, labels, split_index):
@@ -47,7 +47,7 @@ def prepare_X(raw_X):
     # Feature 1: Measure of Symmetry
     ### YOUR CODE HERE
 
-    feature_1 = np.divide(-np.sum(np.abs(raw_image - np.flip(raw_image, axis=2)), axis=(1, -1)), 256)
+    feature_1 = np.divide(-np.sum(np.absolute(raw_image - np.flip(raw_image, axis=-1)), axis=(1, -1)), 256)
     # print("shape of feature_1:", feature_1.shape)
     # print("shape of raw_image:", raw_image.shape)
     # print(feature_1)
@@ -71,12 +71,13 @@ def prepare_X(raw_X):
     # print("1", feature_3.shape)
     # print("2", feature_2.shape)
     # print("3", feature_1.shape)
-    X = np.vstack([feature_3, feature_2, feature_1]).transpose()
+    X = np.vstack([feature_3, feature_1, feature_2]).transpose()
     # print("shape of X:", X.shape)
     # print("first row of X", X[0, :])
     # print("1", np.mean(feature_1))
     # print("2", np.mean(feature_2))
     # END YOUR CODE
+
     return X
 
 def prepare_y(raw_y):
