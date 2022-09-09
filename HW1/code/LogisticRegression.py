@@ -65,7 +65,7 @@ class logistic_regression(object):
 
                 all_gradients.append(batch_gradient[0])
 
-        # print("All gradients in Binary:", all_gradients)
+        print("All gradients in Binary:", all_gradients)
 
         ### END YOUR CODE
         return self
