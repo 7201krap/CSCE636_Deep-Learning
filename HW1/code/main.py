@@ -21,16 +21,17 @@ def visualize_features(X, y):
         in submission.
     '''
     ### YOUR CODE HERE
-    plt.figure(figsize=(8, 6))
-    plt.scatter(X[y ==  1, 0], X[y ==  1, 1], c='green', label='class 1', alpha=0.5)
-    plt.scatter(X[y == -1, 0], X[y == -1, 1], c='red',   label='class 2 (or -1)', alpha=0.5)
+    plt.figure(figsize=(10, 6))
+    plt.scatter(X[y ==  1, 0], X[y ==  1, 1], c='green', marker='o', label='class 1', alpha=0.5)
+    plt.scatter(X[y == -1, 0], X[y == -1, 1], c='red',   marker='s', label='class 2 (or -1)', alpha=0.5)
     plt.title('Data')
-    plt.xlim([-1, 0.2])
-    plt.ylim([-1, 0.2])
+    plt.xlim([-1, 0.3])
+    plt.ylim([-1, 0.3])
     plt.xlabel('Symmetry')
     plt.ylabel('Intensity')
     plt.legend()
     plt.savefig("../images/train_features.jpg")
+    plt.clf()
     ### END YOUR CODE
 
 def visualize_result(X, y, W):
@@ -47,19 +48,20 @@ def visualize_result(X, y, W):
     '''
     ### YOUR CODE HERE
     xs = np.linspace(np.min(X[:, 0]), np.max(X[:, 0]), 100)
-    ys = -W[0]/W[2] - W[1]/W[2]*xs
+    ys = -W[0, 0]/W[0, 2] - W[0, 1]/W[0, 2]*xs
 
-    plt.figure(figsize=(8, 6))
-    plt.scatter(X[y ==  1, 0], X[y ==  1, 1], c='green', label='class 1', alpha=0.5)
-    plt.scatter(X[y == -1, 0], X[y == -1, 1], c='red',   label='class 2 (or -1)', alpha=0.5)
-    plt.plot(xs, ys, label='Decision Boundary')
+    plt.figure(figsize=(10, 6))
+    plt.scatter(X[y ==  1, 0], X[y ==  1, 1], c='green', marker='o', label='class 1', alpha=0.5)
+    plt.scatter(X[y == -1, 0], X[y == -1, 1], c='red',   marker='s', label='class 2 (or -1)', alpha=0.5)
+    plt.plot(xs, ys, c='orange', label='Decision Boundary', linestyle='-.')
     plt.title('Binary Classification with Logistic Regression')
-    plt.xlim([-1, 0.2])
-    plt.ylim([-1, 0.2])
+    plt.xlim([-1.1, 0.3])
+    plt.ylim([-1.1, 0.3])
     plt.xlabel('Symmetry')
     plt.ylabel('Intensity')
     plt.legend()
     plt.savefig("../images/train_result_sigmoid.jpg")
+    plt.clf()
     ### END YOUR CODE
 
 def visualize_result_multi(X, y, W):
@@ -75,7 +77,28 @@ def visualize_result_multi(X, y, W):
         in submission.
     '''
     ### YOUR CODE HERE
+    xs = np.linspace(np.min(X[:, 0]), np.max(X[:, 0]), 100)
+    ys0 = -(W[0, 0]-W[1, 0])/(W[0, 2]-W[1, 2]) - (W[0, 1]-W[1, 1])/(W[0, 2]-W[1, 2])*xs
+    ys1 = -(W[0, 0]-W[2, 0])/(W[0, 2]-W[2, 2]) - (W[0, 1]-W[2, 1])/(W[0, 2]-W[2, 2])*xs
+    ys2 = -(W[1, 0]-W[2, 0])/(W[1, 2]-W[2, 2]) - (W[1, 1]-W[2, 1])/(W[1, 2]-W[2, 2])*xs
 
+    plt.figure(figsize=(10, 6))
+    plt.scatter(X[y==0, 0], X[y==0, 1], c='green', marker='o', label='class 1', alpha=0.5)
+    plt.scatter(X[y==1, 0], X[y==1, 1], c='red',   marker='s', label='class 2', alpha=0.5)
+    plt.scatter(X[y==2, 0], X[y==2, 1], c='blue',  marker='^', label='class 3', alpha=0.5)
+
+    plt.plot(xs, ys0, c='orange', label='Decision Boundary between class 1 and 2', alpha=0.8, linestyle='-.')
+    plt.plot(xs, ys1, c='black',  label='Decision Boundary between class 1 and 3', alpha=0.8, linestyle='-.')
+    plt.plot(xs, ys2, c='purple', label='Decision Boundary between class 2 and 3', alpha=0.8, linestyle='-.')
+
+    plt.title('Multiclass Classification')
+    plt.xlim([-1.1, 0.3])
+    plt.ylim([-1.1, 0.3])
+    plt.xlabel('Symmetry')
+    plt.ylabel('Intensity')
+    plt.legend()
+    plt.savefig("../images/train_result_softmax.jpg")
+    plt.clf()
     ### END YOUR CODE
 
 def main():
@@ -147,6 +170,7 @@ def main():
     best_logisticR.fit_miniBGD(train_X, train_y, 5)
     print(best_logisticR.get_params())
     print(best_logisticR.score(train_X, train_y))
+    print(best_logisticR.score(valid_X, valid_y))
 
     # logisticR_classifier = logistic_regression(learning_rate=1e-2, max_iter=1000)
     # logisticR_classifier.fit_miniBGD(train_X, train_y, 10)
@@ -164,7 +188,6 @@ def main():
     # Use the 'best' model above to do testing. Note that the test data should be loaded and processed in the same way as the training data.
     ### YOUR CODE HERE
     test_data, test_labels = load_data(os.path.join(data_dir, test_filename))
-
     test_X_all = prepare_X(test_data)
     test_y_all, test_idx = prepare_y(test_labels)
 
@@ -186,14 +209,18 @@ def main():
     valid_y = valid_y_all
 
     #########  miniBGD for multiclass Logistic Regression
-    logisticR_classifier_multiclass = logistic_regression_multiclass(learning_rate=0.5, max_iter=100,  k= 3)
+    logisticR_classifier_multiclass = logistic_regression_multiclass(learning_rate=0.5, max_iter=100, k=3)
     logisticR_classifier_multiclass.fit_miniBGD(train_X, train_y, 10)
     print(logisticR_classifier_multiclass.get_params())
     print(logisticR_classifier_multiclass.score(train_X, train_y))
 
     # Explore different hyper-parameters.
     ### YOUR CODE HERE
-
+    best_logistic_multi_R = logistic_regression_multiclass(learning_rate=1e-2, max_iter=1000, k=3)
+    best_logistic_multi_R.fit_miniBGD(train_X, train_y, 5)
+    print(best_logistic_multi_R.get_params())
+    print(best_logistic_multi_R.score(train_X, train_y))
+    print(best_logistic_multi_R.score(valid_X, valid_y))
     ### END YOUR CODE
 
     # Visualize the your 'best' model after training.
@@ -202,7 +229,14 @@ def main():
 
     # Use the 'best' model above to do testing.
     ### YOUR CODE HERE
+    visualize_result_multi(train_X[:, 1:3], train_y, best_logistic_multi_R.get_params())
 
+    test_data, test_labels = load_data(os.path.join(data_dir, test_filename))
+    test_X_all = prepare_X(test_data)
+    test_y_all, _ = prepare_y(test_labels)
+
+    print("Logistic Regression Multiple-class case")
+    print("Accuracy on test data:", best_logistic_multi_R.score(test_X_all, test_y_all))
     ### END YOUR CODE
 
 

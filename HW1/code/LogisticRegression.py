@@ -27,7 +27,7 @@ class logistic_regression(object):
         # define W
         # shape of _x: [n_features,]
         # shape of  W: [n_features,]
-        self.W = np.zeros((n_features,))
+        self.W = np.zeros([1, n_features])
         for _ in range(self.max_iter):
             full_gradient = np.mean([self._gradient(x, y) for x, y in zip(X, y)], axis=0)
             self.W = self.W + self.learning_rate * (-full_gradient)
@@ -49,15 +49,16 @@ class logistic_regression(object):
         ### YOUR CODE HERE
         n_samples, n_features = X.shape
 
-        self.W = np.zeros((n_features,))
+        self.W = np.zeros([1, n_features])
         for _ in range(self.max_iter):
-            for idx in range(0, n_samples, batch_size):
-                if idx + batch_size > n_samples:
-                    samples = n_samples - idx
+            for global_idx in range(0, n_samples, batch_size):
+                if global_idx + batch_size > n_samples:
+                    samples_size = n_samples - global_idx
                 else:
-                    samples = batch_size
+                    samples_size = batch_size
+                    
                 batch_gradient = np.mean(
-                    [self._gradient(x, y) for x, y in zip(X[idx:idx + samples], y[idx:idx + samples])], axis=0)
+                    [self._gradient(x, y) for x, y in zip(X[global_idx:global_idx + samples_size], y[global_idx:global_idx + samples_size])], axis=0)
                 self.W = self.W + self.learning_rate * (-batch_gradient)
         ### END YOUR CODE
         return self
@@ -75,7 +76,7 @@ class logistic_regression(object):
         ### YOUR CODE HERE
         n_samples, n_features = X.shape
 
-        self.W = np.zeros((n_features,))
+        self.W = np.zeros([1, n_features])
         for _ in range(self.max_iter):
             for j in range(n_samples):
                 one_sample_gradient = self._gradient(X[j], y[j])
@@ -174,9 +175,8 @@ class logistic_regression(object):
             score: An float. Mean accuracy of self.predict(X) wrt. y.
         """
         ### YOUR CODE HERE
-        n_samples, n_features = X.shape
         prediction = self.predict(X)
-        score = np.divide(np.sum(y == prediction), n_samples) * 100
+        score = np.divide(np.sum(y == prediction), X.shape[0]) * 100
         return score
         ### END YOUR CODE
 
