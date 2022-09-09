@@ -66,9 +66,9 @@ class logistic_regression_multiclass(object):
                 
                 self.W = self.W + self.learning_rate * (-batch_gradient)
 
-                all_gradients.append(batch_gradient)
+                all_gradients.append(batch_gradient[0])
 
-        print("All gradients in Multi:", all_gradients)
+        # print("All gradients in Multi:", all_gradients)
         ### END YOUR CODE
     
 

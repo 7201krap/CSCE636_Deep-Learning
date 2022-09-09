@@ -63,9 +63,9 @@ class logistic_regression(object):
                     [self._gradient(x, y) for x, y in zip(X[global_idx:global_idx + samples_size], y[global_idx:global_idx + samples_size])], axis=0)
                 self.W = self.W + self.learning_rate * (-batch_gradient)
 
-                all_gradients.append(batch_gradient)
+                all_gradients.append(batch_gradient[0])
 
-        print("All gradients in Binary:", all_gradients)
+        # print("All gradients in Binary:", all_gradients)
 
         ### END YOUR CODE
         return self

@@ -82,14 +82,24 @@ def visualize_result_multi(X, y, W):
     ys1 = -(W[0, 0]-W[2, 0])/(W[0, 2]-W[2, 2]) - (W[0, 1]-W[2, 1])/(W[0, 2]-W[2, 2])*xs
     ys2 = -(W[1, 0]-W[2, 0])/(W[1, 2]-W[2, 2]) - (W[1, 1]-W[2, 1])/(W[1, 2]-W[2, 2])*xs
 
+    ys0_ys1 = np.maximum.reduce([ys0, ys1])
+    ys0_ys2 = np.minimum.reduce([ys0, ys2])
+
     plt.figure(figsize=(10, 6))
     plt.scatter(X[y==0, 0], X[y==0, 1], c='green', marker='o', label='class 1', alpha=0.5)
     plt.scatter(X[y==1, 0], X[y==1, 1], c='red',   marker='s', label='class 2', alpha=0.5)
     plt.scatter(X[y==2, 0], X[y==2, 1], c='blue',  marker='^', label='class 3', alpha=0.5)
 
-    plt.plot(xs, ys0, c='orange', label='Decision Boundary between class 1 and 2', alpha=0.8, linestyle='-.')
-    plt.plot(xs, ys1, c='black',  label='Decision Boundary between class 1 and 3', alpha=0.8, linestyle='-.')
-    plt.plot(xs, ys2, c='purple', label='Decision Boundary between class 2 and 3', alpha=0.8, linestyle='-.')
+    # # original decision boundary
+    # plt.plot(xs, ys0, c='yellow', label='DB between class 1 and 2', alpha=0.5)
+    # plt.plot(xs, ys1, c='black',  label='DB between class 1 and 3', alpha=0.5)
+    # plt.plot(xs, ys2, c='purple', label='DB between class 2 and 3', alpha=0.5)
+
+    # new decision boundary
+    # combination of 'decision boundary between class 1 and 2' + 'decision boundary between class 1 and 3'
+    plt.plot(xs, ys0_ys1, c='black', alpha=0.5)
+    # combination of 'decision boundary between class 1 and 2' + 'decision boundary between class 2 and 3'
+    plt.plot(xs, ys0_ys2, c='black', alpha=0.5)
 
     plt.title('Multiclass Classification')
     plt.xlim([-1.1, 0.3])
@@ -166,11 +176,13 @@ def main():
     # print(logisticR_classifier.score(train_X, train_y))
 
     # This one is the best one.
+    print("----------------- BEGIN: Best LR parameters, train, and valid accuracy -----------------")
     best_logisticR = logistic_regression(learning_rate=1e-2, max_iter=1000)
     best_logisticR.fit_miniBGD(train_X, train_y, 5)
     print(best_logisticR.get_params())
     print(best_logisticR.score(train_X, train_y))
     print(best_logisticR.score(valid_X, valid_y))
+    print("----------------- END: Best LR parameters, train, and valid accuracy -----------------")
 
     # logisticR_classifier = logistic_regression(learning_rate=1e-2, max_iter=1000)
     # logisticR_classifier.fit_miniBGD(train_X, train_y, 10)
@@ -187,6 +199,7 @@ def main():
 
     # Use the 'best' model above to do testing. Note that the test data should be loaded and processed in the same way as the training data.
     ### YOUR CODE HERE
+    print("----------------- BEGIN: Best LR test accuracy -----------------")
     test_data, test_labels = load_data(os.path.join(data_dir, test_filename))
     test_X_all = prepare_X(test_data)
     test_y_all, test_idx = prepare_y(test_labels)
@@ -196,8 +209,9 @@ def main():
 
     test_y[np.where(test_y == 2)] = -1
 
-    print("Logistic Regression Sigmoid Case")
     print("Accuracy on test data:", best_logisticR.score(test_X, test_y))
+    print("----------------- END: Best LR test accuracy -----------------")
+    print("***************** !Logistic Regression Sigmoid Case DONE! *****************")
     ### END YOUR CODE
 
 
@@ -216,11 +230,13 @@ def main():
 
     # Explore different hyper-parameters.
     ### YOUR CODE HERE
+    print("----------------- BEGIN: Best Multi LR parameters, train, and valid accuracy -----------------")
     best_logistic_multi_R = logistic_regression_multiclass(learning_rate=1e-2, max_iter=1000, k=3)
     best_logistic_multi_R.fit_miniBGD(train_X, train_y, 5)
     print(best_logistic_multi_R.get_params())
     print(best_logistic_multi_R.score(train_X, train_y))
     print(best_logistic_multi_R.score(valid_X, valid_y))
+    print("----------------- END: Best Multi LR parameters, train, and valid accuracy -----------------")
     ### END YOUR CODE
 
     # Visualize the your 'best' model after training.
@@ -229,14 +245,16 @@ def main():
 
     # Use the 'best' model above to do testing.
     ### YOUR CODE HERE
+    print("----------------- BEGIN: Best Multi LR test accuracy -----------------")
     visualize_result_multi(train_X[:, 1:3], train_y, best_logistic_multi_R.get_params())
 
     test_data, test_labels = load_data(os.path.join(data_dir, test_filename))
     test_X_all = prepare_X(test_data)
     test_y_all, _ = prepare_y(test_labels)
 
-    print("Logistic Regression Multiple-class case")
     print("Accuracy on test data:", best_logistic_multi_R.score(test_X_all, test_y_all))
+    print("----------------- END: Best Multi LR test accuracy -----------------")
+    print("***************** !Logistic Regression Multiple-class case DONE! *****************")
     ### END YOUR CODE
 
 
