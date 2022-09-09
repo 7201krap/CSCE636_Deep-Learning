@@ -13,7 +13,7 @@ import sys
 """
 
 class logistic_regression_multiclass(object):
-	
+
     def __init__(self, learning_rate, max_iter, k):
         self.learning_rate = learning_rate
         self.max_iter = max_iter
@@ -33,7 +33,7 @@ class logistic_regression_multiclass(object):
         Hint: the labels should be converted to one-hot vectors, for example: 1----> [0,1,0]; 2---->[0,0,1].
         """
 
-		### YOUR CODE HERE
+        ### YOUR CODE HERE
         n_samples, n_features = X.shape
         n_classes = self.k
         
@@ -46,6 +46,7 @@ class logistic_regression_multiclass(object):
         
         # We should have weights for each class.
         self.W = np.zeros([n_classes, n_features])
+        all_gradients = list()
 
         for _ in range(self.max_iter):
             for global_idx in range(0, n_samples, batch_size):
@@ -64,7 +65,11 @@ class logistic_regression_multiclass(object):
                 batch_gradient = np.mean(gradient_acc, axis=0)
                 
                 self.W = self.W + self.learning_rate * (-batch_gradient)
-		### END YOUR CODE
+
+                all_gradients.append(batch_gradient)
+
+        print("All gradients in Multi:", all_gradients)
+        ### END YOUR CODE
     
 
     def _gradient(self, _x, _y):
@@ -79,7 +84,7 @@ class logistic_regression_multiclass(object):
             _g: An array of shape [n_features, k]. The gradient of
                 cross-entropy with respect to self.W.
         """
-		### YOUR CODE HERE
+        ### YOUR CODE HERE
         p = self.softmax(self.W @ _x)
         cross_entropy_derivative = p - _y
 
@@ -88,15 +93,15 @@ class logistic_regression_multiclass(object):
 
         _g = cross_entropy_derivative @ _x.transpose()
         return _g
-		### END YOUR CODE
+        ### END YOUR CODE
     
     def softmax(self, x):
         """Compute softmax values for each sets of scores in x."""
         ### You must implement softmax by youself, otherwise you will not get credits for this part.
 
-		### YOUR CODE HERE
+        ### YOUR CODE HERE
         return np.divide(np.exp(x), np.sum(np.exp(x)))
-		### END YOUR CODE
+        ### END YOUR CODE
     
     def get_params(self):
         """Get parameters for this perceptron model.
@@ -119,7 +124,7 @@ class logistic_regression_multiclass(object):
         Returns:
             preds: An array of shape [n_samples,]. Only contains 0,..,k-1.
         """
-		### YOUR CODE HERE
+        ### YOUR CODE HERE
         prediction_probabilities = list()
         for idx in range(X.shape[0]):
             prediction_probability = self.softmax(self.W @ X[idx])
@@ -127,7 +132,7 @@ class logistic_regression_multiclass(object):
         
         answer = np.argmax(prediction_probabilities, axis=1)
         return answer
-		### END YOUR CODE
+        ### END YOUR CODE
 
 
     def score(self, X, labels):
@@ -140,10 +145,10 @@ class logistic_regression_multiclass(object):
         Returns:
             score: An float. Mean accuracy of self.predict(X) wrt. labels.
         """
-		### YOUR CODE HERE
+        ### YOUR CODE HERE
         prediction = self.predict(X)
         score = np.divide(np.sum(labels == prediction), X.shape[0]) * 100
         return score
 
-		### END YOUR CODE
+        ### END YOUR CODE
 
