@@ -142,64 +142,64 @@ def main():
     visualize_features(train_X[:, 1:3], train_y)
 
 
-   # # ------------Logistic Regression Sigmoid Case------------
-   #
-   # ##### Check BGD, SGD, miniBGD
-   #  logisticR_classifier = logistic_regression(learning_rate=0.5, max_iter=100)
-   #
-   #  logisticR_classifier.fit_BGD(train_X, train_y)
-   #  print(logisticR_classifier.get_params())
-   #  print(logisticR_classifier.score(train_X, train_y))
-   #
-   #  logisticR_classifier.fit_miniBGD(train_X, train_y, data_shape)
-   #  print(logisticR_classifier.get_params())
-   #  print(logisticR_classifier.score(train_X, train_y))
-   #
-   #  logisticR_classifier.fit_SGD(train_X, train_y)
-   #  print(logisticR_classifier.get_params())
-   #  print(logisticR_classifier.score(train_X, train_y))
-   #
-   #  logisticR_classifier.fit_miniBGD(train_X, train_y, 1)
-   #  print(logisticR_classifier.get_params())
-   #  print(logisticR_classifier.score(train_X, train_y))
-   #
-   #  logisticR_classifier.fit_miniBGD(train_X, train_y, 10)
-   #  print(logisticR_classifier.get_params())
-   #  print(logisticR_classifier.score(train_X, train_y))
-   #
-   #
-   #  # Explore different hyper-parameters.
-   #  ### YOUR CODE HERE
-   #  # logisticR_classifier = logistic_regression(learning_rate=1e-2, max_iter=1000)
-   #  # logisticR_classifier.fit_miniBGD(train_X, train_y, 1)
-   #  # print(logisticR_classifier.get_params())
-   #  # print(logisticR_classifier.score(train_X, train_y))
-   #
-   #  # This one is the best one.
-   #  print("----------------- BEGIN: Best LR parameters, train, and valid accuracy -----------------")
-   #  best_logisticR = logistic_regression(learning_rate=1e-2, max_iter=1000)
-   #  best_logisticR.fit_miniBGD(train_X, train_y, 5)
-   #  print(best_logisticR.get_params())
-   #  print(best_logisticR.score(train_X, train_y))
-   #  print(best_logisticR.score(valid_X, valid_y))
-   #  print("----------------- END: Best LR parameters, train, and valid accuracy -----------------")
-   #
-   #  # logisticR_classifier = logistic_regression(learning_rate=1e-2, max_iter=1000)
-   #  # logisticR_classifier.fit_miniBGD(train_X, train_y, 10)
-   #  # print(logisticR_classifier.get_params())
-   #  # print(logisticR_classifier.score(train_X, train_y))
-   #  ### END YOUR CODE
-   #
-   #  # Visualize the your 'best' model after training.
-   #  # visualize_result(train_X[:, 1:3], train_y, best_logisticR.get_params())
-   #
-   #  ### YOUR CODE HERE
-   #  visualize_result(train_X[:, 1:3], train_y, best_logisticR.get_params())
-   #  ### END YOUR CODE
-   #
-   #  # Use the 'best' model above to do testing. Note that the test data should be loaded and processed in the same way as the training data.
-   #  ### YOUR CODE HERE
-   #  print("----------------- BEGIN: Best LR test accuracy -----------------")
+   # ------------Logistic Regression Sigmoid Case------------
+
+   ##### Check BGD, SGD, miniBGD
+    logisticR_classifier = logistic_regression(learning_rate=0.5, max_iter=100)
+
+    logisticR_classifier.fit_BGD(train_X, train_y)
+    print(logisticR_classifier.get_params())
+    print(logisticR_classifier.score(train_X, train_y))
+
+    logisticR_classifier.fit_miniBGD(train_X, train_y, data_shape)
+    print(logisticR_classifier.get_params())
+    print(logisticR_classifier.score(train_X, train_y))
+
+    logisticR_classifier.fit_SGD(train_X, train_y)
+    print(logisticR_classifier.get_params())
+    print(logisticR_classifier.score(train_X, train_y))
+
+    logisticR_classifier.fit_miniBGD(train_X, train_y, 1)
+    print(logisticR_classifier.get_params())
+    print(logisticR_classifier.score(train_X, train_y))
+
+    logisticR_classifier.fit_miniBGD(train_X, train_y, 10)
+    print(logisticR_classifier.get_params())
+    print(logisticR_classifier.score(train_X, train_y))
+
+
+    # Explore different hyper-parameters.
+    ### YOUR CODE HERE
+    # logisticR_classifier = logistic_regression(learning_rate=1e-2, max_iter=1000)
+    # logisticR_classifier.fit_miniBGD(train_X, train_y, 1)
+    # print(logisticR_classifier.get_params())
+    # print(logisticR_classifier.score(train_X, train_y))
+
+    # This one is the best one.
+    print("----------------- BEGIN: Best LR parameters, train, and valid accuracy -----------------")
+    best_logisticR = logistic_regression(learning_rate=1e-2, max_iter=1000)
+    best_logisticR.fit_miniBGD(train_X, train_y, 5)
+    print(best_logisticR.get_params())
+    print(best_logisticR.score(train_X, train_y))
+    print(best_logisticR.score(valid_X, valid_y))
+    print("----------------- END: Best LR parameters, train, and valid accuracy -----------------")
+
+    # logisticR_classifier = logistic_regression(learning_rate=1e-2, max_iter=1000)
+    # logisticR_classifier.fit_miniBGD(train_X, train_y, 10)
+    # print(logisticR_classifier.get_params())
+    # print(logisticR_classifier.score(train_X, train_y))
+    ### END YOUR CODE
+
+    # Visualize the your 'best' model after training.
+    # visualize_result(train_X[:, 1:3], train_y, best_logisticR.get_params())
+
+    ### YOUR CODE HERE
+    visualize_result(train_X[:, 1:3], train_y, best_logisticR.get_params())
+    ### END YOUR CODE
+
+    # Use the 'best' model above to do testing. Note that the test data should be loaded and processed in the same way as the training data.
+    ### YOUR CODE HERE
+    print("----------------- BEGIN: Best LR test accuracy -----------------")
     test_data, test_labels = load_data(os.path.join(data_dir, test_filename))
     test_X_all = prepare_X(test_data)
     test_y_all, test_idx = prepare_y(test_labels)
@@ -208,58 +208,58 @@ def main():
     test_y = test_y_all[test_idx]
 
     test_y[np.where(test_y == 2)] = -1
-   #
-   #  print("Accuracy on test data:", best_logisticR.score(test_X, test_y))
-   #  print("----------------- END: Best LR test accuracy -----------------")
-   #  print("***************** !Logistic Regression Sigmoid Case DONE! *****************")
-   #  ### END YOUR CODE
-   #
-   #
-   #  # ------------Logistic Regression Multiple-class case, let k= 3------------
-   #  ###### Use all data from '0' '1' '2' for training
-   #  train_X = train_X_all
-   #  train_y = train_y_all
-   #  valid_X = valid_X_all
-   #  valid_y = valid_y_all
-   #
-   #  #########  miniBGD for multiclass Logistic Regression
-   #  logisticR_classifier_multiclass = logistic_regression_multiclass(learning_rate=0.5, max_iter=100, k=3)
-   #  logisticR_classifier_multiclass.fit_miniBGD(train_X, train_y, 10)
-   #  print(logisticR_classifier_multiclass.get_params())
-   #  print(logisticR_classifier_multiclass.score(train_X, train_y))
-   #
-   #  # Explore different hyper-parameters.
-   #  ### YOUR CODE HERE
-   #  print("----------------- BEGIN: Best Multi LR parameters, train, and valid accuracy -----------------")
-   #  best_logistic_multi_R = logistic_regression_multiclass(learning_rate=1e-2, max_iter=1000, k=3)
-   #  best_logistic_multi_R.fit_miniBGD(train_X, train_y, 5)
-   #  print(best_logistic_multi_R.get_params())
-   #  print(best_logistic_multi_R.score(train_X, train_y))
-   #  print(best_logistic_multi_R.score(valid_X, valid_y))
-   #  print("----------------- END: Best Multi LR parameters, train, and valid accuracy -----------------")
-   #  ### END YOUR CODE
-   #
-   #  # Visualize the your 'best' model after training.
-   #  # visualize_result_multi(train_X[:, 1:3], train_y, best_logistic_multi_R.get_params())
-   #
-   #
-   #  # Use the 'best' model above to do testing.
-   #  ### YOUR CODE HERE
-   #  print("----------------- BEGIN: Best Multi LR test accuracy -----------------")
-   #  visualize_result_multi(train_X[:, 1:3], train_y, best_logistic_multi_R.get_params())
-   #
-   #  test_data, test_labels = load_data(os.path.join(data_dir, test_filename))
-   #  test_X_all = prepare_X(test_data)
-   #  test_y_all, _ = prepare_y(test_labels)
-   #
-   #  print("Accuracy on test data:", best_logistic_multi_R.score(test_X_all, test_y_all))
-   #  print("----------------- END: Best Multi LR test accuracy -----------------")
-   #  print("***************** !Logistic Regression Multiple-class case DONE! *****************")
-   #  ### END YOUR CODE
+
+    print("Accuracy on test data:", best_logisticR.score(test_X, test_y))
+    print("----------------- END: Best LR test accuracy -----------------")
+    print("***************** !Logistic Regression Sigmoid Case DONE! *****************")
+    ### END YOUR CODE
+
+
+    # ------------Logistic Regression Multiple-class case, let k= 3------------
+    ###### Use all data from '0' '1' '2' for training
+    train_X = train_X_all
+    train_y = train_y_all
+    valid_X = valid_X_all
+    valid_y = valid_y_all
+
+    #########  miniBGD for multiclass Logistic Regression
+    logisticR_classifier_multiclass = logistic_regression_multiclass(learning_rate=0.5, max_iter=100, k=3)
+    logisticR_classifier_multiclass.fit_miniBGD(train_X, train_y, 10)
+    print(logisticR_classifier_multiclass.get_params())
+    print(logisticR_classifier_multiclass.score(train_X, train_y))
+
+    # Explore different hyper-parameters.
+    ### YOUR CODE HERE
+    print("----------------- BEGIN: Best Multi LR parameters, train, and valid accuracy -----------------")
+    best_logistic_multi_R = logistic_regression_multiclass(learning_rate=1e-2, max_iter=1000, k=3)
+    best_logistic_multi_R.fit_miniBGD(train_X, train_y, 5)
+    print(best_logistic_multi_R.get_params())
+    print(best_logistic_multi_R.score(train_X, train_y))
+    print(best_logistic_multi_R.score(valid_X, valid_y))
+    print("----------------- END: Best Multi LR parameters, train, and valid accuracy -----------------")
+    ### END YOUR CODE
+
+    # Visualize the your 'best' model after training.
+    # visualize_result_multi(train_X[:, 1:3], train_y, best_logistic_multi_R.get_params())
+
+
+    # Use the 'best' model above to do testing.
+    ### YOUR CODE HERE
+    print("----------------- BEGIN: Best Multi LR test accuracy -----------------")
+    visualize_result_multi(train_X[:, 1:3], train_y, best_logistic_multi_R.get_params())
+
+    test_data, test_labels = load_data(os.path.join(data_dir, test_filename))
+    test_X_all = prepare_X(test_data)
+    test_y_all, _ = prepare_y(test_labels)
+
+    print("Accuracy on test data:", best_logistic_multi_R.score(test_X_all, test_y_all))
+    print("----------------- END: Best Multi LR test accuracy -----------------")
+    print("***************** !Logistic Regression Multiple-class case DONE! *****************")
+    ### END YOUR CODE
 
 
     # ------------Connection between sigmoid and softmax------------
-    ############ Now set k=2, only use data from '1' and '2' 
+    ############ Now set k=2, only use data from '1' and '2'
 
     #####  set labels to 0,1 for softmax classifer
     train_X = train_X_all[train_idx]
@@ -267,11 +267,11 @@ def main():
     train_X = train_X[0:1350]
     train_y = train_y[0:1350]
     valid_X = valid_X_all[val_idx]
-    valid_y = valid_y_all[val_idx] 
+    valid_y = valid_y_all[val_idx]
     train_y[np.where(train_y==2)] = 0
-    valid_y[np.where(valid_y==2)] = 0  
-    
-    ###### First, fit softmax classifer until convergence, and evaluate 
+    valid_y[np.where(valid_y==2)] = 0
+
+    ###### First, fit softmax classifer until convergence, and evaluate
     ##### Hint: we suggest to set the convergence condition as "np.linalg.norm(gradients*1./batch_size) < 0.0005" or max_iter=10000:
     ### YOUR CODE HERE
     print("------------BEGIN: *Binary* Connection between sigmoid and softmax------------")
@@ -295,10 +295,10 @@ def main():
     train_X = train_X[0:1350]
     train_y = train_y[0:1350]
     valid_X = valid_X_all[val_idx]
-    valid_y = valid_y_all[val_idx] 
+    valid_y = valid_y_all[val_idx]
     #####       set lables to -1 and 1 for sigmoid classifer
     train_y[np.where(train_y==2)] = -1
-    valid_y[np.where(valid_y==2)] = -1   
+    valid_y[np.where(valid_y==2)] = -1
 
     ###### Next, fit sigmoid classifier until convergence, and evaluate
     ##### Hint: we suggest to set the convergence condition as "np.linalg.norm(gradients*1./batch_size) < 0.0005" or max_iter=10000:
@@ -329,33 +329,28 @@ def main():
     '''
 
     ### YOUR CODE HERE
+    print("------------ START: sigmoid vs softmax weights and gradients ------------")
+    train_X = train_X_all[train_idx]
+    train_y = train_y_all[train_idx]
+    train_X = train_X[0:1350]
+    train_y = train_y[0:1350]
+
     epoch = 1
 
     # Sigmoid
-    test_X = test_X_all[test_idx]
-    test_y = test_y_all[test_idx]
-    test_y[np.where(test_y==2)] = -1
-
-    binary_classifier = logistic_regression(learning_rate=2, max_iter=epoch)
+    train_y[np.where(train_y == 2)] = -1
+    binary_classifier = logistic_regression(learning_rate=2 * 1e-2, max_iter=epoch)
     binary_classifier.fit_miniBGD(train_X, train_y, 5)
-
     print("weights of binary classifier:", binary_classifier.get_params())
-    print("train accuracy of binary classifier:", binary_classifier.score(train_X, train_y))
-    print("valid accuracy of binary classifier:", binary_classifier.score(valid_X, valid_y))
-    print("test accuracy of binary classifier:",  binary_classifier.score(test_X, test_y))
 
     # Softmax with 2 classes
-    test_X = test_X_all[test_idx]
-    test_y = test_y_all[test_idx]
-    test_y[np.where(test_y==2)] = 0
+    train_y[np.where(train_y == -1)] = 0    # we have turn train_y to '-1' when the above sigmoid classification was done
+                                            # as we set labels to 0,1 for softmax classifier, we should turn train_y to '0'
 
-    multi_classifier = logistic_regression_multiclass(learning_rate=1, max_iter=epoch)
+    multi_classifier = logistic_regression_multiclass(learning_rate=1e-2, max_iter=epoch, k=2)
     multi_classifier.fit_miniBGD(train_X, train_y, 5)
-
     print("weights of multi (k=2) classifier:", multi_classifier.get_params())
-    print("train accuracy of multi (k=2) classifier:", multi_classifier.score(train_X, train_y))
-    print("valid accuracy of multi (k=2) classifier:", multi_classifier.score(valid_X, valid_y))
-    print("test accuracy of multi (k=2) classifier:", multi_classifier.score(test_X, test_y))
+    print("------------ END: sigmoid vs softmax weights and gradients ------------")
     ### END YOUR CODE
 
     # ------------End------------

@@ -50,7 +50,7 @@ class logistic_regression(object):
         n_samples, n_features = X.shape
 
         self.W = np.zeros([1, n_features])
-        all_gradients = list()
+        # all_gradients = list()
 
         for _ in range(self.max_iter):
             for global_idx in range(0, n_samples, batch_size):
@@ -63,9 +63,9 @@ class logistic_regression(object):
                     [self._gradient(x, y) for x, y in zip(X[global_idx:global_idx + samples_size], y[global_idx:global_idx + samples_size])], axis=0)
                 self.W = self.W + self.learning_rate * (-batch_gradient)
 
-                all_gradients.append(batch_gradient[0])
-
-        print("All gradients in Binary:", all_gradients)
+        #         all_gradients.append(batch_gradient)
+        #
+        # print("All gradients in Binary:", all_gradients)
 
         ### END YOUR CODE
         return self

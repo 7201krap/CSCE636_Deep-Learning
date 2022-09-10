@@ -46,7 +46,7 @@ class logistic_regression_multiclass(object):
         
         # We should have weights for each class.
         self.W = np.zeros([n_classes, n_features])
-        all_gradients = list()
+        # all_gradients = list()
 
         for _ in range(self.max_iter):
             for global_idx in range(0, n_samples, batch_size):
@@ -66,9 +66,9 @@ class logistic_regression_multiclass(object):
                 
                 self.W = self.W + self.learning_rate * (-batch_gradient)
 
-                all_gradients.append(batch_gradient[0])
+                # all_gradients.append(batch_gradient)
 
-        print("All gradients in Multi:", all_gradients)
+        # print("All gradients in Multi:", all_gradients)
         ### END YOUR CODE
     
 
