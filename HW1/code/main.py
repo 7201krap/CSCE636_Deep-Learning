@@ -53,7 +53,7 @@ def visualize_result(X, y, W):
     plt.figure(figsize=(10, 6))
     plt.scatter(X[y ==  1, 0], X[y ==  1, 1], c='green', marker='o', label='class 1', alpha=0.5)
     plt.scatter(X[y == -1, 0], X[y == -1, 1], c='red',   marker='s', label='class 2 (or -1)', alpha=0.5)
-    plt.plot(xs, ys, c='orange', label='Decision Boundary', linestyle='-.')
+    plt.plot(xs, ys, c='orange', label='Decision Boundary')
     plt.title('Binary Classification with Logistic Regression')
     plt.xlim([-1.1, 0.3])
     plt.ylim([-1.1, 0.3])
@@ -232,9 +232,14 @@ def main():
 
     # Explore different hyper-parameters.
     ### YOUR CODE HERE
+<<<<<<< HEAD
     print()
     print("BEGIN: Best Multi LR parameters, train, and valid accuracy")
     best_logistic_multi_R = logistic_regression_multiclass(learning_rate=1e-2, max_iter=1000, k=3)
+=======
+    print("----------------- BEGIN: Best Multi LR parameters, train, and valid accuracy -----------------")
+    best_logistic_multi_R = logistic_regression_multiclass(learning_rate=1e-2, max_iter=100, k=3)
+>>>>>>> cf64927e6c5b252555b95f5f889376c99419396b
     best_logistic_multi_R.fit_miniBGD(train_X, train_y, 5)
     print(best_logistic_multi_R.get_params())
     print(best_logistic_multi_R.score(train_X, train_y))
