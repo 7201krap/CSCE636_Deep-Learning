@@ -160,15 +160,15 @@ class logistic_regression(object):
             preds: An array of shape [n_samples,]. Only contains 1 or -1.
         """
         ### YOUR CODE HERE
-        prediction = list()
+        preds = list()
         for x_single_sample in X:
             if np.dot(self.W, x_single_sample) >= 0:
-                prediction.append(1)
+                preds.append(1)
             else:
-                prediction.append(-1)
+                preds.append(-1)
 
         # print("shape of predictions", np.array(prediction).shape)
-        return prediction
+        return preds
         ### END YOUR CODE
 
     def score(self, X, y):

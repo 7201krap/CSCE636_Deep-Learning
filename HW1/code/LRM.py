@@ -69,6 +69,8 @@ class logistic_regression_multiclass(object):
                 # all_gradients.append(batch_gradient)
 
         # print("All gradients in Multi:", all_gradients)
+
+        return self
         ### END YOUR CODE
     
 
@@ -130,8 +132,8 @@ class logistic_regression_multiclass(object):
             prediction_probability = self.softmax(self.W @ X[idx])
             prediction_probabilities.append(prediction_probability)
         
-        answer = np.argmax(prediction_probabilities, axis=1)
-        return answer
+        preds = np.argmax(prediction_probabilities, axis=1)
+        return preds
         ### END YOUR CODE
 
 
