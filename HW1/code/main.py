@@ -8,9 +8,10 @@ from DataReader import *
 data_dir = "../data"
 train_filename = "training.npz"
 test_filename = "test.npz"
-    
+
+
 def visualize_features(X, y):
-    '''This function is used to plot a 2-D scatter plot of training features. 
+    '''This function is used to plot a 2-D scatter plot of training features.
 
     Args:
         X: An array of shape [n_samples, 2].
@@ -22,8 +23,8 @@ def visualize_features(X, y):
     '''
     ### YOUR CODE HERE
     plt.figure(figsize=(10, 6))
-    plt.scatter(X[y ==  1, 0], X[y ==  1, 1], c='green', marker='o', label='class 1', alpha=0.5)
-    plt.scatter(X[y == -1, 0], X[y == -1, 1], c='red',   marker='s', label='class 2 (or -1)', alpha=0.5)
+    plt.scatter(X[y == 1, 0], X[y == 1, 1], c='green', marker='o', label='class 1', alpha=0.5)
+    plt.scatter(X[y == -1, 0], X[y == -1, 1], c='red', marker='s', label='class 2 (or -1)', alpha=0.5)
     plt.title('Data')
     plt.xlim([-1, 0.3])
     plt.ylim([-1, 0.3])
@@ -33,6 +34,7 @@ def visualize_features(X, y):
     plt.savefig("../images/train_features.jpg")
     plt.clf()
     ### END YOUR CODE
+
 
 def visualize_result(X, y, W):
     '''This function is used to plot the sigmoid model after training.
@@ -48,12 +50,12 @@ def visualize_result(X, y, W):
     '''
     ### YOUR CODE HERE
     xs = np.linspace(np.min(X[:, 0]), np.max(X[:, 0]), 100)
-    ys = -W[0, 0]/W[0, 2] - W[0, 1]/W[0, 2]*xs
+    ys = -W[0, 0] / W[0, 2] - W[0, 1] / W[0, 2] * xs
 
     plt.figure(figsize=(10, 6))
-    plt.scatter(X[y ==  1, 0], X[y ==  1, 1], c='green', marker='o', label='class 1', alpha=0.5)
-    plt.scatter(X[y == -1, 0], X[y == -1, 1], c='red',   marker='s', label='class 2 (or -1)', alpha=0.5)
-    plt.plot(xs, ys, c='orange', label='Decision Boundary')
+    plt.scatter(X[y == 1, 0], X[y == 1, 1], c='green', marker='o', label='class 1', alpha=0.5)
+    plt.scatter(X[y == -1, 0], X[y == -1, 1], c='red', marker='s', label='class 2 (or -1)', alpha=0.5)
+    plt.plot(xs, ys, c='orange', label='Decision Boundary', linestyle='-.')
     plt.title('Binary Classification with Logistic Regression')
     plt.xlim([-1.1, 0.3])
     plt.ylim([-1.1, 0.3])
@@ -63,6 +65,7 @@ def visualize_result(X, y, W):
     plt.savefig("../images/train_result_sigmoid.jpg")
     plt.clf()
     ### END YOUR CODE
+
 
 def visualize_result_multi(X, y, W):
     '''This function is used to plot the softmax model after training.
@@ -78,17 +81,17 @@ def visualize_result_multi(X, y, W):
     '''
     ### YOUR CODE HERE
     xs = np.linspace(np.min(X[:, 0]), np.max(X[:, 0]), 100)
-    ys0 = -(W[0, 0]-W[1, 0])/(W[0, 2]-W[1, 2]) - (W[0, 1]-W[1, 1])/(W[0, 2]-W[1, 2])*xs
-    ys1 = -(W[0, 0]-W[2, 0])/(W[0, 2]-W[2, 2]) - (W[0, 1]-W[2, 1])/(W[0, 2]-W[2, 2])*xs
-    ys2 = -(W[1, 0]-W[2, 0])/(W[1, 2]-W[2, 2]) - (W[1, 1]-W[2, 1])/(W[1, 2]-W[2, 2])*xs
+    ys0 = -(W[0, 0] - W[1, 0]) / (W[0, 2] - W[1, 2]) - (W[0, 1] - W[1, 1]) / (W[0, 2] - W[1, 2]) * xs
+    ys1 = -(W[0, 0] - W[2, 0]) / (W[0, 2] - W[2, 2]) - (W[0, 1] - W[2, 1]) / (W[0, 2] - W[2, 2]) * xs
+    ys2 = -(W[1, 0] - W[2, 0]) / (W[1, 2] - W[2, 2]) - (W[1, 1] - W[2, 1]) / (W[1, 2] - W[2, 2]) * xs
 
     ys0_ys1 = np.maximum.reduce([ys0, ys1])
     ys0_ys2 = np.minimum.reduce([ys0, ys2])
 
     plt.figure(figsize=(10, 6))
-    plt.scatter(X[y==0, 0], X[y==0, 1], c='green', marker='o', label='class 1', alpha=0.5)
-    plt.scatter(X[y==1, 0], X[y==1, 1], c='red',   marker='s', label='class 2', alpha=0.5)
-    plt.scatter(X[y==2, 0], X[y==2, 1], c='blue',  marker='^', label='class 3', alpha=0.5)
+    plt.scatter(X[y == 0, 0], X[y == 0, 1], c='green', marker='o', label='class 1', alpha=0.5)
+    plt.scatter(X[y == 1, 0], X[y == 1, 1], c='red', marker='s', label='class 2', alpha=0.5)
+    plt.scatter(X[y == 2, 0], X[y == 2, 1], c='blue', marker='^', label='class 3', alpha=0.5)
 
     # # original decision boundary
     # plt.plot(xs, ys0, c='yellow', label='DB between class 1 and 2', alpha=0.5)
@@ -111,10 +114,11 @@ def visualize_result_multi(X, y, W):
     plt.clf()
     ### END YOUR CODE
 
+
 def main():
     # ------------Data Preprocessing------------
     # Read data for training.
-    
+
     raw_data, labels = load_data(os.path.join(data_dir, train_filename))
     raw_train, raw_valid, label_train, label_valid = train_valid_split(raw_data, labels, 2300)
 
@@ -123,28 +127,27 @@ def main():
     valid_X_all = prepare_X(raw_valid)
     ##### Preprocess labels for all data to 0,1,2 and return the idx for data from '1' and '2' class.
     train_y_all, train_idx = prepare_y(label_train)
-    valid_y_all, val_idx = prepare_y(label_valid)  
+    valid_y_all, val_idx = prepare_y(label_valid)
 
-    ####### For binary case, only use data from '1' and '2'  
+    ####### For binary case, only use data from '1' and '2'
     train_X = train_X_all[train_idx]
     train_y = train_y_all[train_idx]
-    ####### Only use the first 1350 data examples for binary training. 
+    ####### Only use the first 1350 data examples for binary training.
     train_X = train_X[0:1350]
     train_y = train_y[0:1350]
     valid_X = valid_X_all[val_idx]
     valid_y = valid_y_all[val_idx]
-    ####### set lables to  1 and -1. Here convert label '2' to '-1' which means we treat data '1' as postitive class. 
-    train_y[np.where(train_y==2)] = -1
-    valid_y[np.where(valid_y==2)] = -1
+    ####### set lables to  1 and -1. Here convert label '2' to '-1' which means we treat data '1' as postitive class.
+    train_y[np.where(train_y == 2)] = -1
+    valid_y[np.where(valid_y == 2)] = -1
     data_shape = train_y.shape[0]
 
-#    # Visualize training data.
+    #    # Visualize training data.
     visualize_features(train_X[:, 1:3], train_y)
 
+    # ------------Logistic Regression Sigmoid Case------------
 
-   # ------------Logistic Regression Sigmoid Case------------
-
-   ##### Check BGD, SGD, miniBGD
+    ##### Check BGD, SGD, miniBGD
     logisticR_classifier = logistic_regression(learning_rate=0.5, max_iter=100)
 
     logisticR_classifier.fit_BGD(train_X, train_y)
@@ -166,7 +169,6 @@ def main():
     logisticR_classifier.fit_miniBGD(train_X, train_y, 10)
     print(logisticR_classifier.get_params())
     print(logisticR_classifier.score(train_X, train_y))
-
 
     # Explore different hyper-parameters.
     ### YOUR CODE HERE
@@ -216,7 +218,6 @@ def main():
     print("***************** !Logistic Regression Sigmoid Case DONE! *****************\n")
     ### END YOUR CODE
 
-
     # ------------Logistic Regression Multiple-class case, let k= 3------------
     ###### Use all data from '0' '1' '2' for training
     train_X = train_X_all
@@ -232,14 +233,9 @@ def main():
 
     # Explore different hyper-parameters.
     ### YOUR CODE HERE
-<<<<<<< HEAD
     print()
     print("BEGIN: Best Multi LR parameters, train, and valid accuracy")
     best_logistic_multi_R = logistic_regression_multiclass(learning_rate=1e-2, max_iter=1000, k=3)
-=======
-    print("----------------- BEGIN: Best Multi LR parameters, train, and valid accuracy -----------------")
-    best_logistic_multi_R = logistic_regression_multiclass(learning_rate=1e-2, max_iter=100, k=3)
->>>>>>> cf64927e6c5b252555b95f5f889376c99419396b
     best_logistic_multi_R.fit_miniBGD(train_X, train_y, 5)
     print(best_logistic_multi_R.get_params())
     print(best_logistic_multi_R.score(train_X, train_y))
@@ -249,7 +245,6 @@ def main():
 
     # Visualize the your 'best' model after training.
     # visualize_result_multi(train_X[:, 1:3], train_y, best_logistic_multi_R.get_params())
-
 
     # Use the 'best' model above to do testing.
     ### YOUR CODE HERE
@@ -266,7 +261,6 @@ def main():
     print("***************** !Logistic Regression Multiple-class case DONE! *****************\n")
     ### END YOUR CODE
 
-
     # ------------Connection between sigmoid and softmax------------
     ############ Now set k=2, only use data from '1' and '2'
 
@@ -277,8 +271,8 @@ def main():
     train_y = train_y[0:1350]
     valid_X = valid_X_all[val_idx]
     valid_y = valid_y_all[val_idx]
-    train_y[np.where(train_y==2)] = 0
-    valid_y[np.where(valid_y==2)] = 0
+    train_y[np.where(train_y == 2)] = 0
+    valid_y[np.where(valid_y == 2)] = 0
 
     ###### First, fit softmax classifer until convergence, and evaluate
     ##### Hint: we suggest to set the convergence condition as "np.linalg.norm(gradients*1./batch_size) < 0.0005" or max_iter=10000:
@@ -307,8 +301,8 @@ def main():
     valid_X = valid_X_all[val_idx]
     valid_y = valid_y_all[val_idx]
     #####       set lables to -1 and 1 for sigmoid classifer
-    train_y[np.where(train_y==2)] = -1
-    valid_y[np.where(valid_y==2)] = -1
+    train_y[np.where(train_y == 2)] = -1
+    valid_y[np.where(valid_y == 2)] = -1
 
     ###### Next, fit sigmoid classifier until convergence, and evaluate
     ##### Hint: we suggest to set the convergence condition as "np.linalg.norm(gradients*1./batch_size) < 0.0005" or max_iter=10000:
@@ -316,7 +310,6 @@ def main():
     # TO SEE GRADIENTS, UNCOMMENT ALL LINES THAT INCLUDES all_gradients IN LRM.py and LogisticRegression.py
     print()
     print("START: fit sigmoid classifier until convergence, and evaluate")
-
 
     test_X = test_X_all[test_idx]
     test_y = test_y_all[test_idx]
@@ -331,7 +324,6 @@ def main():
     print("test accuracy -->", compare_logisticR.score(test_X, test_y))
     print("END: fit sigmoid classifier until convergence, and evaluate")
     ### END YOUR CODE
-
 
     ################Compare and report the observations/prediction accuracy
 
@@ -358,8 +350,8 @@ def main():
     print("weights of binary classifier:", binary_classifier.get_params())
 
     # Softmax with 2 classes
-    train_y[np.where(train_y == -1)] = 0    # we have turn train_y to '-1' when the above sigmoid classification was done
-                                            # as we set labels to 0,1 for softmax classifier, we should turn train_y to '0'
+    train_y[np.where(train_y == -1)] = 0  # we have turn train_y to '-1' when the above sigmoid classification was done
+    # as we set labels to 0,1 for softmax classifier, we should turn train_y to '0'
 
     multi_classifier = logistic_regression_multiclass(learning_rate=1e-2, max_iter=epoch, k=2)
     multi_classifier.fit_miniBGD(train_X, train_y, 5)
@@ -369,9 +361,8 @@ def main():
 
     # ------------End------------
 
-    
 
 if __name__ == '__main__':
     main()
-    
-    
+
+
