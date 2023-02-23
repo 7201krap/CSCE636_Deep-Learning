@@ -1,1 +1,0 @@
-v2 version: data is shuffled - compare this with percentron learning algorithm.

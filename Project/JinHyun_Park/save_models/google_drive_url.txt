@@ -1,0 +1,5 @@
+Trained weights: https://drive.google.com/drive/folders/1-6oCowUguCaeI5ONX9EnhNbuw2X9-1Qr?usp=share_link
+(20 weight files)
+
+The best weights: https://drive.google.com/drive/folders/1DVURVtnf27m6JZWEK0CSGClND8CiSA-A?usp=share_link
+(1 weight file)
